@@ -1,5 +1,6 @@
 import sqlite3
 from prettytable import PrettyTable
+from colored import Fore, Style
 
 conn = sqlite3.connect(database='database.db')
 cursor = conn.cursor()
@@ -29,9 +30,10 @@ def update_data(id, new_name,new_age):
 def show_data_table():
     datas = select_data()
     table = PrettyTable()
-    table.field_names = ['Id','Name','Age']
+    table.field_names = [f'{Fore.red}Id{Style.reset}',f'{Fore.yellow}Name{Style.reset}',f'{Fore.green}Age{Style.reset}']
     for data in datas:
-        table.add_row([data[0],data[1],data[2]])
+
+        table.add_row([f'{Fore.red}{data[0]}{Style.reset}',f'{Fore.yellow}{data[1]}{Style.reset}',f'{Fore.green}{data[2]}{Style.reset}'])
     return table
 
 
