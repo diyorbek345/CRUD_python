@@ -1,4 +1,6 @@
 import sqlite3
+from prettytable import PrettyTable
+
 conn = sqlite3.connect(database='database.db')
 cursor = conn.cursor()
 
@@ -24,6 +26,15 @@ def delete_data(id):
 def update_data(id, new_name,new_age):
     cursor.execute("UPDATE data SET name=?, age=? WHERE id=?",(new_name,new_age,id))
 
+def show_data_table():
+    datas = select_data()
+    table = PrettyTable()
+    table.field_names = ['Id','Name','Age']
+    for data in datas:
+        table.add_row([data[0],data[1],data[2]])
+    return table
+
+
 def main():
     while True:
         print(f'1.Create')
@@ -39,10 +50,8 @@ def main():
             age = input('Your age: ')
             insert_data(name,age)
         elif choice == '2':
-            datas = select_data()
-            print('Id'+' '*10+'Name'+' '*10+'Age')
-            for data in datas:
-                print(str(data[0])+' '*10+data[1]+' '*10+data[2])
+            print(show_data_table())
+
         elif choice == '3':
             id = input("Please enter id: ")
             delete_data(id)
